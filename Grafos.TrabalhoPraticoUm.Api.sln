@@ -5,13 +5,13 @@ VisualStudioVersion = 16.0.31829.152
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grafos.TrabalhoPraticoUm.Api", "Grafos.TrabalhoPraticoUm.Api\Grafos.TrabalhoPraticoUm.Api.csproj", "{E3881865-329C-4423-868F-DEC1F6E8E761}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grafos.TrabalhoPraticoUm.Borders", "Grafos.TrabalhoPratico.Borders\Grafos.TrabalhoPraticoUm.Borders.csproj", "{A3B68FFC-0FC9-48C7-9D17-FE0914DF0660}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grafos.TrabalhoPraticoUm.UseCases", "Grafos.TrabalhoPraticoUm.UseCases\Grafos.TrabalhoPraticoUm.UseCases.csproj", "{CE36E12C-597C-4845-A122-A6DE5F13CD62}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grafos.TrabalhoPraticoUm.Mappings", "Grafos.TrabalhoPraticoUm.Mappings\Grafos.TrabalhoPraticoUm.Mappings.csproj", "{408500CE-94DF-434E-8219-74DA0056277A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grafos.TrabalhoPraticoUm.Shared", "Grafos.TrabalhoPraticoUm.Shared\Grafos.TrabalhoPraticoUm.Shared.csproj", "{90D81C30-4DED-4571-97C1-FA571F80FCE2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grafos.TrabalhoPraticoUm.Borders", "Grafos.TrabalhoPraticoUm.Borders\Grafos.TrabalhoPraticoUm.Borders.csproj", "{43CC1196-DDDE-401D-BF5B-7BBBC2372892}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,6 @@ Global
 		{E3881865-329C-4423-868F-DEC1F6E8E761}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3881865-329C-4423-868F-DEC1F6E8E761}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3881865-329C-4423-868F-DEC1F6E8E761}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A3B68FFC-0FC9-48C7-9D17-FE0914DF0660}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A3B68FFC-0FC9-48C7-9D17-FE0914DF0660}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A3B68FFC-0FC9-48C7-9D17-FE0914DF0660}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A3B68FFC-0FC9-48C7-9D17-FE0914DF0660}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CE36E12C-597C-4845-A122-A6DE5F13CD62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CE36E12C-597C-4845-A122-A6DE5F13CD62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE36E12C-597C-4845-A122-A6DE5F13CD62}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +35,10 @@ Global
 		{90D81C30-4DED-4571-97C1-FA571F80FCE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90D81C30-4DED-4571-97C1-FA571F80FCE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90D81C30-4DED-4571-97C1-FA571F80FCE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43CC1196-DDDE-401D-BF5B-7BBBC2372892}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43CC1196-DDDE-401D-BF5B-7BBBC2372892}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43CC1196-DDDE-401D-BF5B-7BBBC2372892}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43CC1196-DDDE-401D-BF5B-7BBBC2372892}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

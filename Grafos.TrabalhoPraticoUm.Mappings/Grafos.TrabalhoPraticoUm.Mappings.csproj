@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Grafos.TrabalhoPratico.Borders\Grafos.TrabalhoPraticoUm.Borders.csproj" />
+    <ProjectReference Include="..\Grafos.TrabalhoPraticoUm.Borders\Grafos.TrabalhoPraticoUm.Borders.csproj" />
     <ProjectReference Include="..\Grafos.TrabalhoPraticoUm.UseCases\Grafos.TrabalhoPraticoUm.UseCases.csproj" />
   </ItemGroup>
 

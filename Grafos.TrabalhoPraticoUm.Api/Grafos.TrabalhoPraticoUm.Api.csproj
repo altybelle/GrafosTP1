@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Grafos.TrabalhoPratico.Borders\Grafos.TrabalhoPraticoUm.Borders.csproj" />
+    <ProjectReference Include="..\Grafos.TrabalhoPraticoUm.Borders\Grafos.TrabalhoPraticoUm.Borders.csproj" />
     <ProjectReference Include="..\Grafos.TrabalhoPraticoUm.Mappings\Grafos.TrabalhoPraticoUm.Mappings.csproj" />
   </ItemGroup>
 

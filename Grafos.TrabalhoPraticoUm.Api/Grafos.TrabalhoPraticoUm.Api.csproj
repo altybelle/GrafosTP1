@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+	<StartupObject>Grafos.TrabalhoPraticoUm.Api.Program</StartupObject>
+	<NoWarn>1591</NoWarn>
+  </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	    <DocumentationFile>C:\Users\altam\Documents\Pasta Pessoal\Universidade\CCF331\Trabalhos Práticos\Grafos.TrabalhoPraticoUm.Api\Grafos.TrabalhoPraticoUm.Api\Grafos.TrabalhoPraticoUm.Api.xml</DocumentationFile>
+    </PropertyGroup>
+
+
+	<ItemGroup>
+    <Compile Remove="NovaPasta\**" />
+    <Content Remove="NovaPasta\**" />
+    <EmbeddedResource Remove="NovaPasta\**" />
+    <None Remove="NovaPasta\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Grafos.TrabalhoPratico.Borders\Grafos.TrabalhoPraticoUm.Borders.csproj" />
+    <ProjectReference Include="..\Grafos.TrabalhoPraticoUm.Mappings\Grafos.TrabalhoPraticoUm.Mappings.csproj" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<None Update="Grafos.TrabalhoPraticoUm.Api.xml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+</Project>

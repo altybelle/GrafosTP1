@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Grafos.TrabalhoPraticoUm.Api</name>
+    </assembly>
+    <members>
+        <member name="M:Grafos.TrabalhoPraticoUm.Api.ServicesConfiguration.Swagger.SwaggerConfig.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Set configuration Swagger
+            </summary>
+            <param name="services"></param>
+        </member>
+    </members>
+</doc>

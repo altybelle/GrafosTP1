@@ -2,7 +2,6 @@
 using Grafos.TrabalhoPraticoUm.Borders.Request;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.IO;
 using System.Text.Json;
 
 namespace Grafos.TrabalhoPraticoUm.Api.Controllers

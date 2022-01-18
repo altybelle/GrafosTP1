@@ -1,10 +1,10 @@
 ﻿using Grafos.TrabalhoPraticoUm.Borders;
 using Grafos.TrabalhoPraticoUm.Borders.Request;
+using Grafos.TrabalhoPraticoUm.Borders.Services;
+using Grafos.TrabalhoPraticoUm.Shared;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.IO;
-using System.Text;
-using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Grafos.TrabalhoPraticoUm.Api.Controllers
 {
@@ -12,22 +12,28 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
     [ApiController]
     public class FileController : ControllerBase
     {
+        private readonly IFileService fileService;
+
+        public FileController(IFileService fileService)
+        {
+            this.fileService = fileService;
+        }
+
         [HttpPut("convert")]
-        public ActionResult<JsonGraph> ConvertFile([FromForm] FileRequest request)
+        public async Task<ActionResult<JsonGraph>> ConvertFile([FromForm] FileRequest request)
         {
             try {
-                
-                JsonGraph obj = null;
+                JsonGraph response = null;
 
-                if (request.File != null && request.File.Length > 0)
+                if (request.File.ContentType == Constants.FileContent.JsonFormat)
                 {
-                    using var ms = new MemoryStream();
-                    request.File.CopyTo(ms);
-                    string s = Encoding.UTF8.GetString(ms.ToArray());
-                    obj = JsonSerializer.Deserialize<JsonGraph>(s);
+                    response = await fileService.ConvertFromJson(request);
+                } else if (request.File.ContentType == Constants.FileContent.TxtFormat)
+                {
+                    response = await fileService.ConvertFromTxt(request);
                 }
-                
-                return Ok(obj);
+
+                return Ok(response);
             } catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);

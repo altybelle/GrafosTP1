@@ -4,6 +4,12 @@ namespace Grafos.TrabalhoPraticoUm.Shared
 {
     public class Constants
     {
+        public class FileContent
+        {
+            public static readonly string JsonFormat = "application/json";
+            public static readonly string TxtFormat = "text/txt";
+        }
+
         public class JsonGraphOptions
         {
             [JsonPropertyName("locale")]

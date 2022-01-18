@@ -14,6 +14,8 @@ namespace Grafos.TrabalhoPraticoUm.Shared
             public Edges Edges { get; set; } = default;
             [JsonPropertyName("nodes")]
             public Nodes Nodes { get; set; } = default;
+            [JsonPropertyName("physics")]
+            public Physics Physics { get; set; } = default;
 
         }
         public class Manipulation

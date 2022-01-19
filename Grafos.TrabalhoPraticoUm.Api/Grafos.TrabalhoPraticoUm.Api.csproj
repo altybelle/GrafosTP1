@@ -6,18 +6,6 @@
 	<NoWarn>1591</NoWarn>
   </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-	    <DocumentationFile>C:\Users\altam\Documents\Pasta Pessoal\Universidade\CCF331\Trabalhos Práticos\Grafos.TrabalhoPraticoUm.Api\Grafos.TrabalhoPraticoUm.Api\Grafos.TrabalhoPraticoUm.Api.xml</DocumentationFile>
-    </PropertyGroup>
-
-
-	<ItemGroup>
-    <Compile Remove="NovaPasta\**" />
-    <Content Remove="NovaPasta\**" />
-    <EmbeddedResource Remove="NovaPasta\**" />
-    <None Remove="NovaPasta\**" />
-  </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>

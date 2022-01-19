@@ -4,8 +4,8 @@ namespace Grafos.TrabalhoPraticoUm.Borders
 {
     public class FileGraph
     {
-        public int Lines { get; set; }
+        public int Nodes { get; set; }
         public int Edges { get; set; }
-        public double[,] Connections { get; set; }
+        public float[,] Connections { get; set; }
     }
 }

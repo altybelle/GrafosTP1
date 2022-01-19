@@ -39,9 +39,16 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
 
             var obj = new FileGraph
             {
-                Lines = edgeAmount,
-                Connections = new double[edgeAmount + 1, edgeAmount + 1]
+                Nodes = edgeAmount,
+                Connections = new float[edgeAmount + 1, edgeAmount + 1]
             };
+            for (int i = 0; i <= edgeAmount; i++)
+            {
+                for(int j = 0; j <= edgeAmount; j++)
+                {
+                    obj.Connections[i, j] = float.MaxValue;
+                }                    
+            }
 
             for (int i = 1; i < data.Length; i++)
             {
@@ -49,7 +56,7 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
 
                 int index1 = int.Parse(connections[0]);
                 int index2 = int.Parse(connections[1]);
-                double value = double.Parse(connections[2], CultureInfo.InvariantCulture);
+                float value = float.Parse(connections[2], CultureInfo.InvariantCulture);
 
                 obj.Connections[index1, index2] = value;
                 obj.Connections[index2, index1] = value;

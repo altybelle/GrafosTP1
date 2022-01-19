@@ -7,7 +7,7 @@ namespace Grafos.TrabalhoPraticoUm.Shared
         public class FileContent
         {
             public static readonly string JsonFormat = "application/json";
-            public static readonly string TxtFormat = "text/txt";
+            public static readonly string TxtFormat = "text/plain";
         }
 
         public class JsonGraphOptions

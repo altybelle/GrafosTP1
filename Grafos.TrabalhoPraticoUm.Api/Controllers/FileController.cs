@@ -1,5 +1,4 @@
-﻿using Grafos.TrabalhoPraticoUm.Borders;
-using Grafos.TrabalhoPraticoUm.Borders.Request;
+﻿using Grafos.TrabalhoPraticoUm.Borders.Request;
 using Grafos.TrabalhoPraticoUm.Borders.Services;
 using Grafos.TrabalhoPraticoUm.Shared;
 using Microsoft.AspNetCore.Mvc;
@@ -20,10 +19,10 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
         }
 
         [HttpPut("convert")]
-        public async Task<ActionResult<JsonGraph>> ConvertFile([FromForm] FileRequest request)
+        public async Task<ActionResult<object>> ConvertFile([FromForm] FileRequest request)
         {
             try {
-                JsonGraph response = null;
+                object response = null;
 
                 if (request.File.ContentType == Constants.FileContent.JsonFormat)
                 {

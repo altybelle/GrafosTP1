@@ -9,11 +9,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Response\" />
+    <ProjectReference Include="..\Grafos.TrabalhoPraticoUm.Shared\Grafos.TrabalhoPraticoUm.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Grafos.TrabalhoPraticoUm.Shared\Grafos.TrabalhoPraticoUm.Shared.csproj" />
+    <Folder Include="Response\" />
   </ItemGroup>
 
 </Project>

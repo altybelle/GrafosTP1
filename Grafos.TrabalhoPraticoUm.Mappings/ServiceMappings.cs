@@ -1,7 +1,5 @@
 ﻿using Grafos.TrabalhoPraticoUm.Borders.Services;
-using Grafos.TrabalhoPraticoUm.Borders.UseCases;
 using Grafos.TrabalhoPraticoUm.UseCases.Services;
-using Grafos.TrabalhoPraticoUm.UseCases.UseCases;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Grafos.TrabalhoPraticoUm.Mappings
@@ -12,7 +10,6 @@ namespace Grafos.TrabalhoPraticoUm.Mappings
         {
             services.AddSingleton<IFileService, FileService>();
             services.AddSingleton<IGraphService, GraphService>();
-            services.AddSingleton<IGraphVisualizerUseCase, GraphVisualizerUseCase>();
         }
     }
 }

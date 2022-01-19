@@ -27,8 +27,6 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
 
         public async Task<FileGraph> ReadTxt(IFormFile file)
         {
-            FileGraph obj = null;
-
             if (file == null || file.Length <= 0)
                 throw new FileIsNullOrEmptyException("[FileService][ReadTxt] The file is null or empty.");
 
@@ -39,7 +37,7 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
 
             int edgeAmount = int.Parse(data[0]);
 
-            obj = new FileGraph
+            var obj = new FileGraph
             {
                 Lines = edgeAmount,
                 Connections = new double[edgeAmount + 1, edgeAmount + 1]
@@ -63,17 +61,13 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
 
         public async Task<JsonGraph> ReadJson(IFormFile file)
         {
-            JsonGraph obj = null;
-
             if (file == null || file.Length <= 0)
                 throw new FileIsNullOrEmptyException("[FileService][ReadJson] The file is null or empty.");
 
             using var ms = new MemoryStream();
             await file.CopyToAsync(ms);
             string json = Encoding.UTF8.GetString(ms.ToArray());
-            obj = JsonSerializer.Deserialize<JsonGraph>(json);
-
-            return obj;
-        } 
+            return JsonSerializer.Deserialize<JsonGraph>(json);
+        }
     }
 }

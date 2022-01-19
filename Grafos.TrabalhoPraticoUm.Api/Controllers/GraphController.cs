@@ -77,7 +77,7 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
             try
             {
                 var response = await graphService.ReturnDegree(request, node);
-                return Ok(1);
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -91,7 +91,7 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
             try
             {
                 var response = await graphService.IsArticulation(request, node);
-                return Ok(true);
+                return Ok(response);
             }
             catch (Exception ex)
             {

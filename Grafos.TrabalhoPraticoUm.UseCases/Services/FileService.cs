@@ -12,6 +12,11 @@ using System.Threading.Tasks;
 using static Grafos.TrabalhoPraticoUm.Borders.Data;
 using static Grafos.TrabalhoPraticoUm.Borders.Data.DataEdges;
 using static Grafos.TrabalhoPraticoUm.Borders.Data.DataNodes;
+using static Grafos.TrabalhoPraticoUm.Shared.Constants;
+using static Grafos.TrabalhoPraticoUm.Shared.Constants.Edges;
+using static Grafos.TrabalhoPraticoUm.Shared.Constants.Nodes;
+using static Grafos.TrabalhoPraticoUm.Shared.Constants.Nodes.NodeColor;
+using static Grafos.TrabalhoPraticoUm.Shared.Constants.Physics;
 
 namespace Grafos.TrabalhoPraticoUm.UseCases.Services
 {
@@ -60,23 +65,7 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
             int nodes = txt.Nodes;
             int edges = txt.Edges;
 
-            var obj = new JsonGraph
-            {
-                Data = new Data
-                {
-                    Edges = new DataEdges {
-                        Data = GenerateEdges(txt.Connections, nodes, edges),
-                        Length = edges
-                    },
-                    Nodes = new DataNodes
-                    {
-                        Data = GenerateNodes(nodes),
-                        Length = nodes
-                    }
-                }
-            };
-
-            return obj;
+            return GenerateJsonGraph(txt.Connections, nodes, edges);
         }
 
         public async Task<FileGraph> ReadTxt(IFormFile file)
@@ -134,7 +123,46 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
             string json = Encoding.UTF8.GetString(ms.ToArray());
             return JsonSerializer.Deserialize<JsonGraph>(json);
         }
-
+        internal JsonGraph GenerateJsonGraph(float[,] connections, int nodes, int edges)
+        {
+            return new JsonGraph
+            {
+                Data = new Data
+                {
+                    Edges = new DataEdges
+                    {
+                        Data = GenerateEdges(connections, nodes, edges),
+                        Length = edges
+                    },
+                    Nodes = new DataNodes
+                    {
+                        Data = GenerateNodes(nodes),
+                        Length = nodes
+                    }
+                },
+                Options = new JsonGraphOptions
+                {
+                    Edges = new Edges
+                    {
+                        Font = new EdgeFont()
+                    },
+                    Nodes = new Nodes
+                    {
+                        Color = new NodeColor
+                        {
+                            Highlight = new NodeHighlight()
+                        },
+                        Font = new NodeFont(),
+                    },
+                    Physics = new Physics
+                    {
+                        ForceAtlas2Based = new PhysicsForceAtlas2Based(),
+                        Stabilization = new PhysicsStabilization()
+                    },
+                    Manipulation = new Manipulation()
+                }
+            };
+        }
         internal  Dictionary<string, NodeData> GenerateNodes(int nodes)
         {
             var dict = new Dictionary<string, NodeData>();

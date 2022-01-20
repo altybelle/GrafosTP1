@@ -15,7 +15,38 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
     {
         public async Task<FileGraph> ConvertFromJson(FileRequest request)
         {
-            var obj = await ReadTxt(request.File);
+            var json = await ReadJson(request.File);
+
+            int nodes = json.Data.Nodes.Length;
+
+            var obj = new FileGraph
+            {
+                Nodes = nodes,
+                Edges = edges,
+                Connections = new float[nodes + 1, nodes + 1]
+            };
+
+            for (int i = 0; i <= nodes; i++)
+            {
+                for (int j = 0; j <= nodes; j++)
+                {
+                    obj.Connections[i, j] = float.MaxValue;
+                }
+            }
+
+            var dict = json.Data.Edges.Data;
+
+
+            foreach (string key in dict.Keys)
+            {
+                int index1 = dict[key].To;
+                int index2 = dict[key].From;
+                float value = float.Parse(dict[key].Label, CultureInfo.InvariantCulture);
+
+                obj.Connections[index1, index2] = value;
+                obj.Connections[index2, index1] = value;
+            }
+
             return obj;
         }
 

@@ -57,6 +57,8 @@ namespace Grafos.TrabalhoPraticoUm.Borders
                 public int From { get; set; }
                 [JsonPropertyName("to")]
                 public int To { get; set; }
+                [JsonPropertyName("label")]
+                public string Label { get; set; }
                 [JsonPropertyName("id")]
                 public int Id { get; set; }
             }

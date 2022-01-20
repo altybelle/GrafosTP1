@@ -3,11 +3,15 @@ using Grafos.TrabalhoPraticoUm.Borders.Request;
 using Grafos.TrabalhoPraticoUm.Borders.Services;
 using Grafos.TrabalhoPraticoUm.Shared.Exceptions;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using static Grafos.TrabalhoPraticoUm.Borders.Data;
+using static Grafos.TrabalhoPraticoUm.Borders.Data.DataEdges;
+using static Grafos.TrabalhoPraticoUm.Borders.Data.DataNodes;
 
 namespace Grafos.TrabalhoPraticoUm.UseCases.Services
 {
@@ -51,7 +55,27 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
 
         public async Task<JsonGraph> ConvertFromTxt(FileRequest request)
         {
-            var obj = await ReadJson(request.File);
+            var txt = await ReadTxt(request.File);
+
+            int nodes = txt.Nodes;
+            int edges = txt.Edges;
+
+            var obj = new JsonGraph
+            {
+                Data = new Data
+                {
+                    Edges = new DataEdges {
+                        Data = GenerateEdges(txt.Connections, nodes, edges),
+                        Length = edges
+                    },
+                    Nodes = new DataNodes
+                    {
+                        Data = GenerateNodes(nodes),
+                        Length = nodes
+                    }
+                }
+            };
+
             return obj;
         }
 
@@ -79,7 +103,7 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
                     obj.Connections[i, j] = float.MaxValue;
                 }                    
             }
-
+            int edges = 0;
             for (int i = 1; i < data.Length; i++)
             {
                 string[] connections = data[i].Split(" ");
@@ -91,7 +115,11 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
                 obj.Connections[index1, index2] = value;
                 obj.Connections[index2, index1] = value;
 
+                edges++;
             }
+
+
+            obj.Edges = edges;
 
             return obj;
         }
@@ -105,6 +133,48 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
             await file.CopyToAsync(ms);
             string json = Encoding.UTF8.GetString(ms.ToArray());
             return JsonSerializer.Deserialize<JsonGraph>(json);
+        }
+
+        internal  Dictionary<string, NodeData> GenerateNodes(int nodes)
+        {
+            var dict = new Dictionary<string, NodeData>();
+
+            for (int i = 1; i <= nodes; i++)
+            {
+                dict[i.ToString()] = new NodeData
+                {
+                    Label = i.ToString(),
+                    Id = i
+                };
+            }
+
+            return dict;
+        }
+
+        internal Dictionary<string, EdgeData> GenerateEdges(float[,] connections, int nodes, int edges)
+        {
+            var dict = new Dictionary<string, EdgeData>();
+
+            int id = nodes;
+            for (int i = 1; i <= nodes; i++)
+            {
+                for (int j = i + 1; j <= nodes; j++)
+                {
+                    if (connections[i, j] != float.MaxValue)
+                    {
+                        id++;
+                        dict[id.ToString()] = new EdgeData
+                        {
+                            From = i,
+                            To = j,
+                            Label = connections[i, j].ToString(CultureInfo.InvariantCulture),
+                            Id = id
+                        };
+                    }
+                }
+            }
+
+            return dict;
         }
     }
 }

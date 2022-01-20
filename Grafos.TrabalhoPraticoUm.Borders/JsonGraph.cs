@@ -11,7 +11,7 @@ namespace Grafos.TrabalhoPraticoUm.Borders
         [JsonPropertyName("options")]
         public JsonGraphOptions Options { get; set; } = default;
         [JsonPropertyName("ponderado")]
-        public bool Ponderado { get; set; }
+        public bool Ponderado { get; set; } = true;
         [JsonPropertyName("ordenado")]
         public bool Ordenado { get; set; }
 

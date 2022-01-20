@@ -22,7 +22,6 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
             var obj = new FileGraph
             {
                 Nodes = nodes,
-                Edges = edges,
                 Connections = new float[nodes + 1, nodes + 1]
             };
 

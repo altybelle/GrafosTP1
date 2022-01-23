@@ -44,13 +44,13 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
         public async Task<int> ReturnOrder(FileRequest request)
         {
             var graph = await CreateGraph(request);
-            return 1;
+            return graph.Nodes;
         }
 
         public async Task<int> ReturnSize(FileRequest request)
         {
             var graph = await CreateGraph(request);
-            return 1;
+            return graph.Edges;
         }
 
         internal async Task<FileGraph> CreateGraph(FileRequest request)

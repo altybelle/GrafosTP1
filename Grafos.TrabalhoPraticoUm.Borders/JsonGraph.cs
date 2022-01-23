@@ -27,7 +27,9 @@ namespace Grafos.TrabalhoPraticoUm.Borders
         {
             [JsonPropertyName("_data")]
             public Dictionary<string, NodeData> Data { get; set; }
-            public int Length { get; set; } = 6;
+
+            [JsonPropertyName("length")]
+            public int Length { get; set; }
             [JsonPropertyName("_idProp")]
             public string IdProp { get; set; } = "id";
             public class NodeData
@@ -48,7 +50,7 @@ namespace Grafos.TrabalhoPraticoUm.Borders
             [JsonPropertyName("_data")]
             public Dictionary<string, EdgeData> Data { get; set; }
             [JsonPropertyName("length")]
-            public int Length { get; set; } = 6;
+            public int Length { get; set; }
             [JsonPropertyName("_idProp")]
             public string IdProp { get; set; } = "id";
             public class EdgeData

@@ -3,6 +3,8 @@ using Grafos.TrabalhoPraticoUm.Borders.Request;
 using Grafos.TrabalhoPraticoUm.Borders.Services;
 using Grafos.TrabalhoPraticoUm.Shared.Exceptions;
 using Microsoft.AspNetCore.Http;
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -27,10 +29,12 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
             var json = await ReadJson(request.File);
 
             int nodes = json.Data.Nodes.Length;
+            int edges = json.Data.Edges.Length;
 
             var obj = new FileGraph
             {
                 Nodes = nodes,
+                Edges = edges,
                 Connections = new float[nodes + 1, nodes + 1]
             };
 

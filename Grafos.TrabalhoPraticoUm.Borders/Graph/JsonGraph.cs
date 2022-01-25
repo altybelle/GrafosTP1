@@ -2,9 +2,9 @@
 using System.Text.Json.Serialization;
 using static Grafos.TrabalhoPraticoUm.Shared.Constants;
 
-namespace Grafos.TrabalhoPraticoUm.Borders
+namespace Grafos.TrabalhoPraticoUm.Borders.Graph
 {
-    public class JsonGraph
+    public class JsonGraph : IGraph
     {
         [JsonPropertyName("data")]
         public Data Data { get; set; }
@@ -42,7 +42,7 @@ namespace Grafos.TrabalhoPraticoUm.Borders
                 public double? Y { get; set; }
                 [JsonPropertyName("label")]
                 public string Label { get; set; }
-                
+
             }
         }
         public class DataEdges

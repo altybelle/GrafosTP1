@@ -54,9 +54,9 @@ namespace Grafos.TrabalhoPraticoUm.Shared
             public class NodeColor
             {
                 [JsonPropertyName("border")]
-                public  string Border { get; set; } = "#698B69";
+                public string Border { get; set; } = "#698B69";
                 [JsonPropertyName("background")]
-                public  string Background { get; set; } = "#458B74";
+                public string Background { get; set; } = "#458B74";
                 [JsonPropertyName("highlight")]
                 public NodeHighlight Highlight { get; set; } = default;
                 public class NodeHighlight
@@ -108,7 +108,7 @@ namespace Grafos.TrabalhoPraticoUm.Shared
                 [JsonPropertyName("avoidOverlap")]
                 public int AvoidOverlap { get; set; } = 0;
             }
-            
+
             public class PhysicsStabilization
             {
                 [JsonPropertyName("enabled")]

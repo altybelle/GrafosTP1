@@ -1,75 +1,108 @@
-﻿using Grafos.TrabalhoPraticoUm.Borders;
-using Grafos.TrabalhoPraticoUm.Borders.Request;
+﻿using Grafos.TrabalhoPraticoUm.Borders.Graph;
 using Grafos.TrabalhoPraticoUm.Borders.Services;
-using Grafos.TrabalhoPraticoUm.Shared;
-using Grafos.TrabalhoPraticoUm.Shared.Exceptions;
+using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Linq;
 
 namespace Grafos.TrabalhoPraticoUm.UseCases.Services
 {
     public class GraphService : IGraphService
     {
         private readonly IFileService fileService;
-        public GraphService(IFileService fileService)
+        private readonly IMemoryService memoryService;
+        public GraphService(IFileService fileService, IMemoryService memoryService)
         {
             this.fileService = fileService;
+            this.memoryService = memoryService;
         }
 
-        public async Task<bool> IsArticulation(FileRequest request, int node)
+        public bool IsArticulation(int node)
         {
-            var graph = await CreateGraph(request);
+            var graph = CreateGraph();
+
+            for (int i = 1; i <= graph.Nodes; i++)
+            {
+                if (i != node)
+                {
+                    if (!(ReturnNeighborhood(i)).Any(s => s != node))
+                        return false;
+                }
+            }
+
             return true;
         }
 
-        public async Task<int> ReturnDegree(FileRequest request, int node)
+        public int ReturnDegree(int node)
         {
-            var graph = await CreateGraph(request);
-            return 1;
+            var graph = CreateGraph();
+
+            int degree = 0;
+
+            for (int i = 1; i <= graph.Nodes; i++)
+            {
+                if (graph.Connections[node, i] != float.MaxValue)
+                {
+                    degree++;
+                    if (graph.Connections[node, node] != float.MaxValue)
+                        degree++;
+                }
+            }
+
+            return degree;
         }
 
-        public async Task<int> ReturnDensity(FileRequest request)
+        public float ReturnDensity()
         {
-            var graph = await CreateGraph(request);
-            return 1;
+            var graph = CreateGraph();
+
+            float density = Math.Abs((float)graph.Edges) / Math.Abs((float)graph.Nodes);
+
+            return density;
         }
 
-        public async Task<IEnumerable<int>> ReturnNeighborhood(FileRequest request, int node)
+        public IEnumerable<int> ReturnNeighborhood(int node)
         {
-            var graph = await CreateGraph(request);
+            var graph = CreateGraph();
             var neighbors = new List<int>();
+
+            for (int i = 1; i <= graph.Nodes; i++)
+            {
+                if (graph.Connections[node, i] != float.MaxValue)
+                    neighbors.Add(i);
+            }
+
             return neighbors;
         }
 
-        public async Task<int> ReturnOrder(FileRequest request)
+        public int ReturnOrder()
         {
-            var graph = await CreateGraph(request);
+            var graph = CreateGraph();
             return graph.Nodes;
         }
 
-        public async Task<int> ReturnSize(FileRequest request)
+        public int ReturnSize()
         {
-            var graph = await CreateGraph(request);
+            var graph = CreateGraph();
             return graph.Edges;
         }
 
-        internal async Task<FileGraph> CreateGraph(FileRequest request)
+        internal FileGraph CreateGraph()
         {
-            return (await ValidateContentTypeAndGenerateGraph(request));
-        }
+            var graph = memoryService.Load();
 
-        internal async Task<FileGraph> ValidateContentTypeAndGenerateGraph(FileRequest request)
-        {
-            if (request.File.ContentType == Constants.FileContent.JsonFormat)
+            if (graph == null)
             {
-                return (await fileService.ConvertFromJson(request));
-            }
-            else if (request.File.ContentType == Constants.FileContent.TxtFormat)
-            {
-                return (await fileService.ReadTxt(request.File));
+                throw new Exception();
             }
 
-            throw new InvalidContentTypeException("[GraphService][ValidateContentTypeAndGeneraateGraph] The type of this file is not supported.");
+            if (graph.GetType() == typeof(FileGraph))
+            {
+                return (FileGraph)graph;
+            }
+            else
+            {
+                return fileService.ConvertFromJson((JsonGraph)graph);
+            }
         }
     }
 }

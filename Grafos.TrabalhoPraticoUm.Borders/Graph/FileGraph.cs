@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-
-namespace Grafos.TrabalhoPraticoUm.Borders
+﻿namespace Grafos.TrabalhoPraticoUm.Borders.Graph
 {
-    public class FileGraph
+    public class FileGraph : IGraph
     {
         public int Nodes { get; set; }
         public int Edges { get; set; }

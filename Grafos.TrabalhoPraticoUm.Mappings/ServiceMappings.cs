@@ -10,6 +10,7 @@ namespace Grafos.TrabalhoPraticoUm.Mappings
         {
             services.AddSingleton<IFileService, FileService>();
             services.AddSingleton<IGraphService, GraphService>();
+            services.AddSingleton<IMemoryService, MemoryService>();
         }
     }
 }

@@ -1,19 +1,17 @@
-﻿using Grafos.TrabalhoPraticoUm.Borders;
+﻿using Grafos.TrabalhoPraticoUm.Borders.Graph;
 using Grafos.TrabalhoPraticoUm.Borders.Request;
 using Grafos.TrabalhoPraticoUm.Borders.Services;
 using Grafos.TrabalhoPraticoUm.Shared.Exceptions;
 using Microsoft.AspNetCore.Http;
-
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using static Grafos.TrabalhoPraticoUm.Borders.Data;
-using static Grafos.TrabalhoPraticoUm.Borders.Data.DataEdges;
-using static Grafos.TrabalhoPraticoUm.Borders.Data.DataNodes;
+using static Grafos.TrabalhoPraticoUm.Borders.Graph.Data;
+using static Grafos.TrabalhoPraticoUm.Borders.Graph.Data.DataEdges;
+using static Grafos.TrabalhoPraticoUm.Borders.Graph.Data.DataNodes;
 using static Grafos.TrabalhoPraticoUm.Shared.Constants;
 using static Grafos.TrabalhoPraticoUm.Shared.Constants.Edges;
 using static Grafos.TrabalhoPraticoUm.Shared.Constants.Nodes;
@@ -24,12 +22,10 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
 {
     public class FileService : IFileService
     {
-        public async Task<FileGraph> ConvertFromJson(FileRequest request)
+        public FileGraph ConvertFromJson(JsonGraph graph)
         {
-            var json = await ReadJson(request.File);
-
-            int nodes = json.Data.Nodes.Length;
-            int edges = json.Data.Edges.Length;
+            int nodes = graph.Data.Nodes.Length;
+            int edges = graph.Data.Edges.Length;
 
             var obj = new FileGraph
             {
@@ -46,7 +42,7 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
                 }
             }
 
-            var dict = json.Data.Edges.Data;
+            var dict = graph.Data.Edges.Data;
 
 
             foreach (string key in dict.Keys)
@@ -62,14 +58,12 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
             return obj;
         }
 
-        public async Task<JsonGraph> ConvertFromTxt(FileRequest request)
+        public JsonGraph ConvertFromTxt(FileGraph graph)
         {
-            var txt = await ReadTxt(request.File);
+            int nodes = graph.Nodes;
+            int edges = graph.Edges;
 
-            int nodes = txt.Nodes;
-            int edges = txt.Edges;
-
-            return GenerateJsonGraph(txt.Connections, nodes, edges);
+            return GenerateJsonGraph(graph.Connections, nodes, edges);
         }
 
         public async Task<FileGraph> ReadTxt(IFormFile file)
@@ -91,10 +85,10 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
             };
             for (int i = 0; i <= edgeAmount; i++)
             {
-                for(int j = 0; j <= edgeAmount; j++)
+                for (int j = 0; j <= edgeAmount; j++)
                 {
                     obj.Connections[i, j] = float.MaxValue;
-                }                    
+                }
             }
             int edges = 0;
             for (int i = 1; i < data.Length; i++)
@@ -127,7 +121,7 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
             string json = Encoding.UTF8.GetString(ms.ToArray());
             return JsonSerializer.Deserialize<JsonGraph>(json);
         }
-        internal JsonGraph GenerateJsonGraph(float[,] connections, int nodes, int edges)
+        internal static JsonGraph GenerateJsonGraph(float[,] connections, int nodes, int edges)
         {
             return new JsonGraph
             {
@@ -135,7 +129,7 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
                 {
                     Edges = new DataEdges
                     {
-                        Data = GenerateEdges(connections, nodes, edges),
+                        Data = GenerateEdges(connections, nodes),
                         Length = edges
                     },
                     Nodes = new DataNodes
@@ -167,7 +161,7 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
                 }
             };
         }
-        internal  Dictionary<string, NodeData> GenerateNodes(int nodes)
+        internal static Dictionary<string, NodeData> GenerateNodes(int nodes)
         {
             var dict = new Dictionary<string, NodeData>();
 
@@ -183,7 +177,7 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
             return dict;
         }
 
-        internal Dictionary<string, EdgeData> GenerateEdges(float[,] connections, int nodes, int edges)
+        internal static Dictionary<string, EdgeData> GenerateEdges(float[,] connections, int nodes)
         {
             var dict = new Dictionary<string, EdgeData>();
 

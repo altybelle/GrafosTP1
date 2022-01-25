@@ -1,8 +1,6 @@
-﻿using Grafos.TrabalhoPraticoUm.Borders.Request;
-using Grafos.TrabalhoPraticoUm.Borders.Services;
+﻿using Grafos.TrabalhoPraticoUm.Borders.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Threading.Tasks;
 
 namespace Grafos.TrabalhoPraticoUm.Api.Controllers
 {
@@ -17,24 +15,25 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
         }
 
         [HttpPut("order")]
-        public async Task<ActionResult<int>> ReturnOrder([FromForm] FileRequest request)
+        public ActionResult<int> ReturnOrder()
         {
             try
             {
-                var response = await graphService.ReturnOrder(request);
+                var response = graphService.ReturnOrder();
                 return Ok(response);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
         }
 
         [HttpPut("size")]
-        public async Task<ActionResult<int>> ReturnSize([FromForm] FileRequest request)
+        public ActionResult<int> ReturnSize()
         {
             try
             {
-                var response = await graphService.ReturnSize(request);
+                var response = graphService.ReturnSize();
                 return Ok(response);
             }
             catch (Exception ex)
@@ -44,11 +43,11 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
         }
 
         [HttpPut("density")]
-        public async Task<ActionResult<int>> ReturnDensity([FromForm] FileRequest request)
+        public ActionResult<double> ReturnDensity()
         {
             try
             {
-                var response = await graphService.ReturnDensity(request);
+                var response = graphService.ReturnDensity();
                 return Ok(response);
             }
             catch (Exception ex)
@@ -57,12 +56,12 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
             }
         }
 
-        [HttpPut("neighborhood")]
-        public async Task<ActionResult<int>> ReturnNeighborhood([FromForm] FileRequest request, int node)
+        [HttpPut("neighborhood/{node}")]
+        public ActionResult<int> ReturnNeighborhood([FromRoute] int node)
         {
             try
             {
-                var response = await graphService.ReturnNeighborhood(request, node);
+                var response = graphService.ReturnNeighborhood(node);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -71,12 +70,12 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
             }
         }
 
-        [HttpPut("degree")]
-        public async Task<ActionResult<int>> ReturnDegree([FromForm] FileRequest request, int node)
+        [HttpPut("degree/{node}")]
+        public ActionResult<int> ReturnDegree([FromRoute] int node)
         {
             try
             {
-                var response = await graphService.ReturnDegree(request, node);
+                var response = graphService.ReturnDegree(node);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -85,12 +84,12 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
             }
         }
 
-        [HttpPut("isArticulation")]
-        public async Task<ActionResult<bool>> IsArticulation([FromForm] FileRequest request, int node)
+        [HttpPut("isArticulation/{node}")]
+        public ActionResult<bool> IsArticulation([FromRoute] int node)
         {
             try
             {
-                var response = await graphService.IsArticulation(request, node);
+                var response = graphService.IsArticulation(node);
                 return Ok(response);
             }
             catch (Exception ex)

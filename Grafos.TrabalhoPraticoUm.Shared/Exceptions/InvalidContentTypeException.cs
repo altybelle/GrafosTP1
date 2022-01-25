@@ -2,7 +2,7 @@
 
 namespace Grafos.TrabalhoPraticoUm.Shared.Exceptions
 {
-    public class InvalidContentTypeException: Exception
+    public class InvalidContentTypeException : Exception
     {
         public InvalidContentTypeException()
         {

@@ -14,7 +14,7 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
             this.graphService = graphService;
         }
 
-        [HttpPut("order")]
+        [HttpGet("order")]
         public ActionResult<int> ReturnOrder()
         {
             try
@@ -28,7 +28,7 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
             }
         }
 
-        [HttpPut("size")]
+        [HttpGet("size")]
         public ActionResult<int> ReturnSize()
         {
             try
@@ -42,7 +42,7 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
             }
         }
 
-        [HttpPut("density")]
+        [HttpGet("density")]
         public ActionResult<double> ReturnDensity()
         {
             try
@@ -56,7 +56,7 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
             }
         }
 
-        [HttpPut("neighborhood/{node}")]
+        [HttpGet("neighborhood/{node}")]
         public ActionResult<int> ReturnNeighborhood([FromRoute] int node)
         {
             try
@@ -70,7 +70,7 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
             }
         }
 
-        [HttpPut("degree/{node}")]
+        [HttpGet("degree/{node}")]
         public ActionResult<int> ReturnDegree([FromRoute] int node)
         {
             try
@@ -84,12 +84,12 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
             }
         }
 
-        [HttpPut("isArticulation/{node}")]
-        public ActionResult<bool> IsArticulation([FromRoute] int node)
+        [HttpGet("articulated/{node}")]
+        public ActionResult<bool> IsArticulated([FromRoute] int node)
         {
             try
             {
-                var response = graphService.IsArticulation(node);
+                var response = graphService.IsArticulated(node);
                 return Ok(response);
             }
             catch (Exception ex)

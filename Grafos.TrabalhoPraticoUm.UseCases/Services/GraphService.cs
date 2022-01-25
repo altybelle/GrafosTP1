@@ -1,5 +1,6 @@
 ﻿using Grafos.TrabalhoPraticoUm.Borders.Graph;
 using Grafos.TrabalhoPraticoUm.Borders.Services;
+using Grafos.TrabalhoPraticoUm.Shared.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +17,12 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
             this.memoryService = memoryService;
         }
 
-        public bool IsArticulation(int node)
+        public bool IsArticulated(int node)
         {
             var graph = CreateGraph();
+
+            if (node > graph.Nodes)
+                throw new IndexOutOfRangeException($"[GraphService][IsArticulation] Index out of bounds. Current amount of nodes: {graph.Nodes}.");
 
             for (int i = 1; i <= graph.Nodes; i++)
             {
@@ -35,6 +39,9 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
         public int ReturnDegree(int node)
         {
             var graph = CreateGraph();
+
+            if (node > graph.Nodes)
+                throw new IndexOutOfRangeException($"[GraphService][ReturnDegree] Index out of bounds. Current amount of nodes: {graph.Nodes}.");
 
             int degree = 0;
 
@@ -63,6 +70,10 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
         public IEnumerable<int> ReturnNeighborhood(int node)
         {
             var graph = CreateGraph();
+
+            if (node > graph.Nodes)
+                throw new IndexOutOfRangeException($"[GraphService][ReturnNeighborhood] Index out of bounds. Current amount of nodes: {graph.Nodes}.");
+
             var neighbors = new List<int>();
 
             for (int i = 1; i <= graph.Nodes; i++)
@@ -91,9 +102,7 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
             var graph = memoryService.Load();
 
             if (graph == null)
-            {
-                throw new Exception();
-            }
+                throw new NoFileWasLoadedException("[GraphService][CreateGraph] No file was loaded.");
 
             if (graph.GetType() == typeof(FileGraph))
             {

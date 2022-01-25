@@ -1,5 +1,4 @@
-﻿using Grafos.TrabalhoPraticoUm.Borders.Request;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Grafos.TrabalhoPraticoUm.Borders.Services
 {
@@ -10,6 +9,6 @@ namespace Grafos.TrabalhoPraticoUm.Borders.Services
         float ReturnDensity();
         IEnumerable<int> ReturnNeighborhood(int node);
         int ReturnDegree(int node);
-        bool IsArticulation(int node);
+        bool IsArticulated(int node);
     }
 }

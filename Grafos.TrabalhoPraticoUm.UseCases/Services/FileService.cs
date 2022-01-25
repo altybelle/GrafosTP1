@@ -2,6 +2,7 @@
 using Grafos.TrabalhoPraticoUm.Borders.Services;
 using Grafos.TrabalhoPraticoUm.Shared.Exceptions;
 using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -77,20 +78,30 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
 
             int edgeAmount = int.Parse(data[0]);
 
+            int nodeAmount = 0;
+            
+            for (int i = 1; i < data.Length; i++)
+            {
+                string[] connections = data[i].Split(" ");
+                nodeAmount = Math.Max(nodeAmount, Math.Max(int.Parse(connections[0]), int.Parse(connections[1])));
+            }
+            
             var obj = new FileGraph
             {
-                Nodes = edgeAmount,
-                Connections = new float[edgeAmount + 1, edgeAmount + 1]
+                Nodes = nodeAmount,
+                Edges = edgeAmount,
+                Connections = new float[nodeAmount + 1, nodeAmount + 1]
             };
-            for (int i = 0; i <= edgeAmount; i++)
+
+            for (int i = 0; i <= nodeAmount; i++)
             {
-                for (int j = 0; j <= edgeAmount; j++)
+                for (int j = 0; j <= nodeAmount; j++)
                 {
                     obj.Connections[i, j] = float.MaxValue;
                 }
             }
-            int edges = 0;
-            for (int i = 1; i < data.Length; i++)
+
+            for (int i = 1; i <= edgeAmount; i++)
             {
                 string[] connections = data[i].Split(" ");
 
@@ -100,12 +111,7 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
 
                 obj.Connections[index1, index2] = value;
                 obj.Connections[index2, index1] = value;
-
-                edges++;
             }
-
-
-            obj.Edges = edges;
 
             return obj;
         }

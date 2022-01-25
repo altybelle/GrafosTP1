@@ -24,16 +24,9 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
             if (node > graph.Nodes)
                 throw new IndexOutOfRangeException($"[GraphService][IsArticulated] Index out of bounds. Current amount of nodes: {graph.Nodes}.");
 
-            for (int i = 1; i <= graph.Nodes; i++)
-            {
-                if (i != node)
-                {
-                    if (!(ReturnNeighborhood(i)).Any(s => s != node))
-                        return false;
-                }
-            }
-
-            return true;
+            return Enumerable.Range(0, graph.Connections.GetLength(0))
+                .Where(i => i != node && i > 0)
+                .All(n => ReturnNeighborhood(n).Any(s => s != node));
         }
 
         public int ReturnDegree(int node)
@@ -43,29 +36,15 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
             if (node > graph.Nodes)
                 throw new IndexOutOfRangeException($"[GraphService][ReturnDegree] Index out of bounds. Current amount of nodes: {graph.Nodes}.");
 
-            int degree = 0;
-
-            for (int i = 1; i <= graph.Nodes; i++)
-            {
-                if (graph.Connections[node, i] != float.MaxValue)
-                {
-                    degree++;
-                }
-            }
-
-            if (graph.Connections[node, node] != float.MaxValue)
-                degree++;
-
-            return degree;
+            return Enumerable.Range(0, graph.Connections.GetLength(0))
+                .Select(i => graph.Connections[i, node])
+                .Where(i => i != float.MaxValue).Count();
         }
 
         public float ReturnDensity()
         {
             var graph = CreateGraph();
-
-            float density = Math.Abs((float)graph.Edges) / Math.Abs((float)graph.Nodes);
-
-            return density;
+            return Math.Abs((float)graph.Edges) / Math.Abs((float)graph.Nodes);
         }
 
         public IEnumerable<int> ReturnNeighborhood(int node)
@@ -75,27 +54,18 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
             if (node > graph.Nodes)
                 throw new IndexOutOfRangeException($"[GraphService][ReturnNeighborhood] Index out of bounds. Current amount of nodes: {graph.Nodes}.");
 
-            var neighbors = new List<int>();
-
-            for (int i = 1; i <= graph.Nodes; i++)
-            {
-                if (graph.Connections[node, i] != float.MaxValue)
-                    neighbors.Add(i);
-            }
-
-            return neighbors;
+            return Enumerable.Range(0, graph.Connections.GetLength(0))
+                .Where(i => i > 0 && graph.Connections[node, i] != float.MaxValue);
         }
 
         public int ReturnOrder()
         {
-            var graph = CreateGraph();
-            return graph.Nodes;
+            return CreateGraph().Nodes;
         }
 
         public int ReturnSize()
         {
-            var graph = CreateGraph();
-            return graph.Edges;
+            return CreateGraph().Edges;
         }
 
         internal FileGraph CreateGraph()

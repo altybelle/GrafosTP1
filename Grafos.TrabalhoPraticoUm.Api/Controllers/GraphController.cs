@@ -13,7 +13,10 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
         {
             this.graphService = graphService;
         }
-
+        /// <summary>
+        /// Returns the order of a ponderated graph.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("order")]
         public ActionResult<int> ReturnOrder()
         {
@@ -27,7 +30,10 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-
+        /// <summary>
+        /// Returns the size of a ponderated graph.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("size")]
         public ActionResult<int> ReturnSize()
         {
@@ -41,7 +47,10 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-
+        /// <summary>
+        /// Returns the size of a ponderated graph.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("density")]
         public ActionResult<double> ReturnDensity()
         {
@@ -55,7 +64,11 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-
+        /// <summary>
+        /// Returns the neighborhood of a specific graph node.
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         [HttpGet("neighborhood/{node}")]
         public ActionResult<int> ReturnNeighborhood([FromRoute] int node)
         {
@@ -69,7 +82,11 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-
+        /// <summary>
+        /// Returns the neighborhood of a specific graph node.
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         [HttpGet("degree/{node}")]
         public ActionResult<int> ReturnDegree([FromRoute] int node)
         {
@@ -83,7 +100,11 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-
+        /// <summary>
+        /// Discovers if a graph is articulated based on the removal of a specific node.
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         [HttpGet("articulated/{node}")]
         public ActionResult<bool> IsArticulated([FromRoute] int node)
         {

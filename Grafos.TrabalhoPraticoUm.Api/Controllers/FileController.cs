@@ -20,6 +20,11 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
             this.memoryService = memoryService;
         }
 
+        /// <summary>
+        /// Saves a file for continuous use of the program.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost("save")]
         public async Task<ActionResult<string>> SaveFile([FromForm] FileRequest request)
         {
@@ -44,7 +49,11 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
                 return StatusCode(400, ex.Message);
             }
         }
-
+        /// <summary>
+        /// Converts a file into another file of different format.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPut("convert")]
         public async Task<ActionResult<object>> ConvertFile([FromForm] FileRequest request)
         {

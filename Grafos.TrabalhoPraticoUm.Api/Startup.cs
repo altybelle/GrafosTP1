@@ -1,10 +1,13 @@
-using Grafos.TrabalhoPraticoUm.Api.ServicesConfiguration.Swagger;
 using Grafos.TrabalhoPraticoUm.Mappings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using System;
+using System.IO;
+using System.Reflection;
 using System.Text.Json.Serialization;
 
 namespace Grafos.TrabalhoPraticoUm.Api
@@ -24,7 +27,26 @@ namespace Grafos.TrabalhoPraticoUm.Api
             {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             });
-            services.ConfigureServices();
+
+
+            services.AddSwaggerGen(s =>
+            {
+                s.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Just A Graph - by MDT",
+                    Description = "Trabalho Prático 1 de Grafos - Universidade Federal de Viçosa",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "MDT",
+                        Email = "altamiro.belezia@ufv.br;icaro.moreira@ufv.br;emanuel.ruella@ufv.br",
+                    },
+                    Version = "v1"
+                });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                s.IncludeXmlComments(xmlPath);
+            });
 
             ServiceMappings.ConfigureServices(services);
         }

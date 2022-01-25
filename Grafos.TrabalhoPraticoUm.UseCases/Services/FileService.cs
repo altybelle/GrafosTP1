@@ -1,5 +1,4 @@
 ﻿using Grafos.TrabalhoPraticoUm.Borders.Graph;
-using Grafos.TrabalhoPraticoUm.Borders.Request;
 using Grafos.TrabalhoPraticoUm.Borders.Services;
 using Grafos.TrabalhoPraticoUm.Shared.Exceptions;
 using Microsoft.AspNetCore.Http;

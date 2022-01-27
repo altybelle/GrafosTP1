@@ -76,15 +76,8 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
             string txt = Encoding.UTF8.GetString(ms.ToArray()).Replace("\r", string.Empty);
             string[] data = txt.Split("\n");
 
-            int edgeAmount = int.Parse(data[0]);
-
-            int nodeAmount = 0;
-            
-            for (int i = 1; i < data.Length; i++)
-            {
-                string[] connections = data[i].Split(" ");
-                nodeAmount = Math.Max(nodeAmount, Math.Max(int.Parse(connections[0]), int.Parse(connections[1])));
-            }
+            int nodeAmount = int.Parse(data[0]);
+            int edgeAmount = data.Length - 1;
             
             var obj = new FileGraph
             {

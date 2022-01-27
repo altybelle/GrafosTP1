@@ -68,6 +68,82 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
             return CreateGraph().Edges;
         }
 
+        public IEnumerable<string> BFS(int node)
+        {
+            var graph = CreateGraph();
+            
+            Queue<int> queue = new Queue<int>();
+            List<float> visitedEdges = new List<float>();
+            List<int> flagged = new List<int>();
+
+            flagged.Add(node);
+            queue.Enqueue(node);
+
+            while (queue.Any())
+            {
+                int v = queue.Dequeue(); 
+                for (int w = 1; w <= graph.Nodes; w++)
+                {
+                    if (!flagged.Contains(w) && graph.Connections[v,w] != float.MaxValue)
+                    {
+                        visitedEdges.Add(graph.Connections[v, w]);
+                        queue.Enqueue(w);
+                        flagged.Add(w);
+                    } 
+                }
+            }
+
+            List<string> unvisitedEdges = new List<string>();
+            for(int i = 1; i <= graph.Nodes; i++)
+            {
+                for (int j = i + 1; j <= graph.Nodes; j++)
+                {
+                    var item = graph.Connections[i, j];
+                    if (!visitedEdges.Contains(item) && item != float.MaxValue){
+                        unvisitedEdges.Add($"({i}, {j})");
+                    }
+                    
+                }
+            }
+
+            return unvisitedEdges;
+        }
+
+        public bool IsCyclic()
+        {
+            var graph = CreateGraph();
+            List<bool> visited = new List<bool>();
+
+
+            for (int i = 1; i <= graph.Nodes; i++)
+                visited.Add(false);
+
+            for (int i = 1; i <= graph.Nodes; i++)
+                if (!visited[i])
+                    if (CycleDetection(graph, i, visited, -1))
+                        return true;
+
+            return false;
+        }
+
+        private bool CycleDetection(FileGraph graph, int v, List<bool> visited, int parent)
+        {
+            visited[v] = true;
+
+            for (int i = 1; i <= graph.Nodes; i++)
+            {
+                if (!visited[i])
+                {
+                    if (CycleDetection(graph, i, visited, v))
+                        return true;
+                } else if (i != parent)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         internal FileGraph CreateGraph()
         {
             var graph = memoryService.Load();

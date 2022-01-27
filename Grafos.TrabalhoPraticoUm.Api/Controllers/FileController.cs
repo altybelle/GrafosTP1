@@ -19,9 +19,13 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
             this.fileService = fileService;
             this.memoryService = memoryService;
         }
-
-        [HttpPost("save")]
-        public async Task<ActionResult<string>> SaveFile([FromForm] FileRequest request)
+        /// <summary>
+        /// Loads JSON or TXT file.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost("load")]
+        public async Task<ActionResult<string>> LoadFile([FromForm] FileRequest request)
         {
             try
             {
@@ -45,7 +49,11 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
                 return StatusCode(400, ex.Message);
             }
         }
-
+        /// <summary>
+        /// Converts JSON to TXT and vice-versa.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPut("convert")]
         public async Task<ActionResult<object>> ConvertFile([FromForm] FileRequest request)
         {

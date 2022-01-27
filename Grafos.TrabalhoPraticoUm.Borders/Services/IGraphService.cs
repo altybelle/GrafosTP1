@@ -10,5 +10,7 @@ namespace Grafos.TrabalhoPraticoUm.Borders.Services
         IEnumerable<int> ReturnNeighborhood(int node);
         int ReturnDegree(int node);
         bool IsArticulated(int node);
+        IEnumerable<string> BFS(int node);
+        bool IsCyclic();
     }
 }

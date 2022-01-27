@@ -1,6 +1,7 @@
 ﻿using Grafos.TrabalhoPraticoUm.Borders.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 
 namespace Grafos.TrabalhoPraticoUm.Api.Controllers
 {
@@ -111,6 +112,40 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
             try
             {
                 var response = graphService.IsArticulated(node);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+        /// <summary>
+        /// Executes the Breadh-First Search given a specific node.
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        [HttpGet("bfs/{node}")]
+        public ActionResult<IEnumerable<string>> BFS([FromRoute] int node)
+        {
+            try
+            {
+                var response = graphService.BFS(node);
+                return Ok(response);
+            } catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+        /// <summary>
+        /// Verifies if the generated graph is cyclic.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("is_cyclic")]
+        public ActionResult<bool> IsCyclic()
+        {
+            try
+            {
+                var response = graphService.IsCyclic();
                 return Ok(response);
             }
             catch (Exception ex)

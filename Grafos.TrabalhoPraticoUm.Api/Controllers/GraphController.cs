@@ -1,4 +1,5 @@
-﻿using Grafos.TrabalhoPraticoUm.Borders.Services;
+﻿using Grafos.TrabalhoPraticoUm.Borders.Graph;
+using Grafos.TrabalhoPraticoUm.Borders.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -149,6 +150,35 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
                 return Ok(response);
             }
             catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+        /// <summary>
+        /// Verifies if the generated graph is Eulerian. Case not, returns empty values.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("eulerian_path")]
+        public ActionResult<EulerianPath> EulerianPath()
+        {
+            try
+            {
+                var response = graphService.EulerianPath();
+                return Ok(response);
+            } catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("djikstra/{node}")]
+        public ActionResult<Djikstra> DistanceAndShortestPath([FromRoute] int node)
+        {
+            try
+            {
+                var response = graphService.DistanceAndShortestPath(node);
+                return Ok(response);
+            } catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }

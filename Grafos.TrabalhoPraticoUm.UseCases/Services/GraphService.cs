@@ -71,7 +71,7 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
         public IEnumerable<string> BFS(int node)
         {
             var graph = CreateGraph();
-            
+
             Queue<int> queue = new Queue<int>();
             List<float> visitedEdges = new List<float>();
             List<int> flagged = new List<int>();
@@ -81,28 +81,29 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
 
             while (queue.Any())
             {
-                int v = queue.Dequeue(); 
+                int v = queue.Dequeue();
                 for (int w = 1; w <= graph.Nodes; w++)
                 {
-                    if (!flagged.Contains(w) && graph.Connections[v,w] != float.MaxValue)
+                    if (!flagged.Contains(w) && graph.Connections[v, w] != float.MaxValue)
                     {
                         visitedEdges.Add(graph.Connections[v, w]);
                         queue.Enqueue(w);
                         flagged.Add(w);
-                    } 
+                    }
                 }
             }
 
             List<string> unvisitedEdges = new List<string>();
-            for(int i = 1; i <= graph.Nodes; i++)
+            for (int i = 1; i <= graph.Nodes; i++)
             {
                 for (int j = i + 1; j <= graph.Nodes; j++)
                 {
                     var item = graph.Connections[i, j];
-                    if (!visitedEdges.Contains(item) && item != float.MaxValue){
+                    if (!visitedEdges.Contains(item) && item != float.MaxValue)
+                    {
                         unvisitedEdges.Add($"({i}, {j})");
                     }
-                    
+
                 }
             }
 
@@ -136,12 +137,40 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
                 {
                     if (CycleDetection(graph, i, visited, v))
                         return true;
-                } else if (i != parent)
+                }
+                else if (i != parent)
                 {
                     return true;
                 }
             }
             return false;
+        }
+        public EulerianPath EulerianPath()
+        {
+            var graph = CreateGraph();
+
+            EulerianPath euler = new EulerianPath(graph.Connections, graph.Nodes + 1);
+
+            for (int i = 1; i <= graph.Nodes; i++)
+            {
+                if (ReturnDegree(i) % 2 != 0)
+                    return euler;
+            }
+
+            euler.IsEulerian = true;
+            euler.Fleury(1);
+
+            return euler;
+        }
+
+        public Djikstra DistanceAndShortestPath(int node)
+        {
+            var graph = CreateGraph();
+
+            Djikstra djikstra = new Djikstra(graph.Connections, graph.Nodes + 1);
+            djikstra.Run(node);
+
+            return djikstra;
         }
 
         internal FileGraph CreateGraph()

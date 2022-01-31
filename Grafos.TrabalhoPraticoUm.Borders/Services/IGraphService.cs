@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Grafos.TrabalhoPraticoUm.Borders.Graph;
+using System.Collections.Generic;
 
 namespace Grafos.TrabalhoPraticoUm.Borders.Services
 {
@@ -12,5 +13,7 @@ namespace Grafos.TrabalhoPraticoUm.Borders.Services
         bool IsArticulated(int node);
         IEnumerable<string> BFS(int node);
         bool IsCyclic();
+        EulerianPath EulerianPath();
+        Djikstra DistanceAndShortestPath(int node);
     }
 }

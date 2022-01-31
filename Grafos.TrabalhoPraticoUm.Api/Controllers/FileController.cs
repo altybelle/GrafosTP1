@@ -32,12 +32,12 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
                 if (request.File.ContentType == Constants.FileContent.JsonFormat)
                 {
                     memoryService.Save(await fileService.ReadJson(request.File));
-                    return Ok("[FileController][SaveFile] JSON file saved succesfully.");
+                    return Ok("[FileController][SaveFile] JSON file loaded succesfully.");
                 }
                 else if (request.File.ContentType == Constants.FileContent.TxtFormat)
                 {
                     memoryService.Save(await fileService.ReadTxt(request.File));
-                    return Ok("[FileController][SaveFile] TXT file saved succesfully.");
+                    return Ok("[FileController][SaveFile] TXT file loaded succesfully.");
                 }
                 else
                 {

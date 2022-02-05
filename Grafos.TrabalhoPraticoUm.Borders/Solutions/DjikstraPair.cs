@@ -1,4 +1,4 @@
-﻿namespace Grafos.TrabalhoPraticoUm.Borders.Graph
+﻿namespace Grafos.TrabalhoPraticoUm.Borders.Solutions
 {
     public class DjikstraPair
     {

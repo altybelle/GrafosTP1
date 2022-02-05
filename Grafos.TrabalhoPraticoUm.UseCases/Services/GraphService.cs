@@ -1,5 +1,6 @@
 ﻿using Grafos.TrabalhoPraticoUm.Borders.Graph;
 using Grafos.TrabalhoPraticoUm.Borders.Services;
+using Grafos.TrabalhoPraticoUm.Borders.Solutions;
 using Grafos.TrabalhoPraticoUm.Shared.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -172,7 +173,19 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
 
             return djikstra;
         }
+        public Kruskal KruskalsAlgorithm()
+        {
+            var graph = CreateGraph();
 
+            var kruskal = new Kruskal();
+            kruskal.KruskalMinimumSpanningTree(GraphAdapter(graph), graph.Nodes);
+
+            return kruskal;
+        }
+        public void RoysAlgorithm()
+        {
+
+        }
         internal FileGraph CreateGraph()
         {
             var graph = memoryService.Load();
@@ -188,6 +201,19 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
             {
                 return fileService.ConvertFromJson((JsonGraph)graph);
             }
+        }
+
+        internal float[,] GraphAdapter(FileGraph graph)
+        {
+            float[,] connections = new float[graph.Nodes, graph.Nodes];
+            for (int i = 0; i < graph.Nodes; i++)
+            {
+                for (int j = 0; j < graph.Nodes; j++)
+                {
+                    connections[i, j] = graph.Connections[i + 1, j + 1];
+                }
+            }
+            return connections;
         }
     }
 }

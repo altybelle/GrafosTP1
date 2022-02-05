@@ -1,4 +1,4 @@
-﻿using Grafos.TrabalhoPraticoUm.Borders.Graph;
+﻿using Grafos.TrabalhoPraticoUm.Borders.Solutions;
 using System.Collections.Generic;
 
 namespace Grafos.TrabalhoPraticoUm.Borders.Services
@@ -15,5 +15,6 @@ namespace Grafos.TrabalhoPraticoUm.Borders.Services
         bool IsCyclic();
         EulerianPath EulerianPath();
         Djikstra DistanceAndShortestPath(int node);
+        Kruskal KruskalsAlgorithm();
     }
 }

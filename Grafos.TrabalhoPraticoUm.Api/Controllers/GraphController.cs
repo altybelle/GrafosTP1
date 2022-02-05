@@ -1,5 +1,5 @@
-﻿using Grafos.TrabalhoPraticoUm.Borders.Graph;
-using Grafos.TrabalhoPraticoUm.Borders.Services;
+﻿using Grafos.TrabalhoPraticoUm.Borders.Services;
+using Grafos.TrabalhoPraticoUm.Borders.Solutions;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -85,7 +85,7 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
             }
         }
         /// <summary>
-        /// Returns the neighborhood of a specific graph node.
+        /// Returns the degree of a specific node.
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
@@ -155,7 +155,7 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
             }
         }
         /// <summary>
-        /// Verifies if the generated graph is Eulerian. Case not, returns empty values.
+        /// Applies Fleury's algorithm to verify if the generated graph is Eulerian. Case not, returns empty values.
         /// </summary>
         /// <returns></returns>
         [HttpGet("eulerian_path")]
@@ -171,12 +171,33 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
             }
         }
 
-        [HttpGet("djikstra/{node}")]
+        /// <summary>
+        /// Applies Djikstra's algorithm based on a specified node and returns the minimum path and distance.
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        [HttpGet("minimum_distance/{node}")]
         public ActionResult<Djikstra> DistanceAndShortestPath([FromRoute] int node)
         {
             try
             {
                 var response = graphService.DistanceAndShortestPath(node);
+                return Ok(response);
+            } catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+        /// <summary>
+        /// Applies Kruskal's algorithm to generate a Minimum Spanning Tree and the minimum cost.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("minimum_spanning_tree/")]
+        public ActionResult<Kruskal> MinimumSpanningTree()
+        {
+            try
+            {
+                var response = graphService.KruskalsAlgorithm();
                 return Ok(response);
             } catch (Exception ex)
             {

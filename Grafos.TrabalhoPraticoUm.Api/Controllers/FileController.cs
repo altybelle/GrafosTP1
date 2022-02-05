@@ -1,9 +1,14 @@
-﻿using Grafos.TrabalhoPraticoUm.Borders.Request;
+﻿using Grafos.TrabalhoPraticoUm.Borders.Extensions;
+using Grafos.TrabalhoPraticoUm.Borders.Graph;
+using Grafos.TrabalhoPraticoUm.Borders.Request;
 using Grafos.TrabalhoPraticoUm.Borders.Services;
 using Grafos.TrabalhoPraticoUm.Shared;
 using Grafos.TrabalhoPraticoUm.Shared.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.IO;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Grafos.TrabalhoPraticoUm.Api.Controllers
@@ -52,31 +57,45 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
         /// <summary>
         /// Converts JSON to TXT and vice-versa.
         /// </summary>
-        /// <param name="request"></param>
+        /// <param></param>
         /// <returns></returns>
         [HttpPut("convert")]
-        public async Task<ActionResult<object>> ConvertFile([FromForm] FileRequest request)
+        public ActionResult ConvertFile()
         {
             try
             {
-                object response = null;
+                string fileName;
+                string mimeType;
 
-                if (request.File.ContentType == Constants.FileContent.JsonFormat)
+                var graph = memoryService.Load();
+
+                if (graph.GetType() == typeof(FileGraph)) {
+                    fileName = "response.json";
+                    mimeType = "application/json";
+
+                    var response = fileService.ConvertFromTxt((FileGraph)graph);
+                    var newFile = JsonSerializer.SerializeToUtf8Bytes(response);
+
+                    return new FileContentResult(newFile, mimeType)
+                    {
+                        FileDownloadName = fileName,
+                    };
+                } else if (graph.GetType() == typeof(JsonGraph))
                 {
-                    var graph = await fileService.ReadJson(request.File);
-                    response = fileService.ConvertFromJson(graph);
-                }
-                else if (request.File.ContentType == Constants.FileContent.TxtFormat)
-                {
-                    var graph = await fileService.ReadTxt(request.File);
-                    response = fileService.ConvertFromTxt(graph);
+                    fileName = "response.txt";
+                    mimeType = "plain/text";
+
+                    var response = fileService.ConvertFromJson((JsonGraph)graph).ToFileString();
+                   
+                    return new FileContentResult(Encoding.ASCII.GetBytes(response), mimeType)
+                    {
+                        FileDownloadName = fileName,
+                    };
                 }
                 else
                 {
                     throw new InvalidContentTypeException("[FileController][ConvertFile] Invalid content type.");
                 }
-
-                return Ok(response);
             }
             catch (Exception ex)
             {

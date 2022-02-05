@@ -119,6 +119,7 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
             string json = Encoding.UTF8.GetString(ms.ToArray());
             return JsonSerializer.Deserialize<JsonGraph>(json);
         }
+                
         internal static JsonGraph GenerateJsonGraph(float[,] connections, int nodes, int edges)
         {
             return new JsonGraph

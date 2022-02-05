@@ -1,8 +1,9 @@
-﻿using Grafos.TrabalhoPraticoUm.Borders.Graph;
+﻿using Grafos.TrabalhoPraticoUm.Borders.Extensions;
+using Grafos.TrabalhoPraticoUm.Borders.Graph;
 using Grafos.TrabalhoPraticoUm.Borders.Services;
+using Grafos.TrabalhoPraticoUm.Borders.Solutions;
 using Grafos.TrabalhoPraticoUm.Shared.Exceptions;
 using Microsoft.AspNetCore.Http;
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -78,7 +79,7 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
 
             int nodeAmount = int.Parse(data[0]);
             int edgeAmount = data.Length - 1;
-            
+
             var obj = new FileGraph
             {
                 Nodes = nodeAmount,
@@ -119,7 +120,61 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
             string json = Encoding.UTF8.GetString(ms.ToArray());
             return JsonSerializer.Deserialize<JsonGraph>(json);
         }
-                
+        public (byte[], string, string) GenerateConvertedFile(IGraph graph)
+        {
+            string fileName;
+            string mimeType;
+
+            if (graph.GetType() == typeof(FileGraph))
+            {
+                fileName = "response.json";
+                mimeType = "application/json";
+
+                var response = ConvertFromTxt((FileGraph)graph);
+                var newFile = JsonSerializer.SerializeToUtf8Bytes(response);
+
+                return (newFile, mimeType, fileName);
+            }
+            else if (graph.GetType() == typeof(JsonGraph))
+            {
+                fileName = "response.txt";
+                mimeType = "plain/text";
+
+                var newFile = ConvertFromJson((JsonGraph)graph).ToFileString();
+
+                return (Encoding.ASCII.GetBytes(newFile), mimeType, fileName);
+            }
+            else
+            {
+                throw new InvalidContentTypeException("[FileController][ConvertFile] Invalid content type.");
+            }
+        }
+
+        public (byte[], string, string) GenerateKruskalFile(Kruskal kruskal)
+        {
+            var fileName = "kruskal.txt";
+            var mimeType = "plain/text";
+
+            int max = 0;
+            foreach (string item in kruskal.Tree.Values)
+            {
+                var items = item.Split(' ');
+                if (max < int.Parse(items[0]) || max < int.Parse(items[1]))
+                    max = int.Parse(items[0]) > int.Parse(items[1]) ? int.Parse(items[0]) : int.Parse(items[1]);
+            }
+
+            var result = string.Empty;
+            result += $"{max}\n";
+
+            foreach (string item in kruskal.Tree.Values)
+            {
+                result += $"{item}\n";
+            }
+
+            result += $"Min cost: {kruskal.MinCost.ToString(CultureInfo.InvariantCulture)}";
+
+            return (Encoding.ASCII.GetBytes(result), mimeType, fileName);
+        }
         internal static JsonGraph GenerateJsonGraph(float[,] connections, int nodes, int edges)
         {
             return new JsonGraph

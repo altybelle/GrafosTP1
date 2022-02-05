@@ -32,7 +32,7 @@ namespace Grafos.TrabalhoPraticoUm.Borders.Solutions
                 ShortestPathSet.Add(false);
             }
 
-            Result[start - 1] = new DjikstraPair {Node = start, Distance = 0 };
+            Result[start - 1] = new DjikstraPair { Node = start, Distance = 0 };
 
             for (int count = 0; count < GraphLength - 1; count++)
             {

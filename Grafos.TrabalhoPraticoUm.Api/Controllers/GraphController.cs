@@ -11,9 +11,11 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
     public class GraphController : ControllerBase
     {
         private readonly IGraphService graphService;
-        public GraphController(IGraphService graphService)
+        private readonly IFileService fileService;
+        public GraphController(IGraphService graphService, IFileService fileService)
         {
             this.graphService = graphService;
+            this.fileService = fileService;
         }
         /// <summary>
         /// Returns the order of a ponderated graph.
@@ -132,7 +134,8 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
             {
                 var response = graphService.BFS(node);
                 return Ok(response);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
@@ -165,7 +168,8 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
             {
                 var response = graphService.EulerianPath();
                 return Ok(response);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
@@ -183,7 +187,8 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
             {
                 var response = graphService.DistanceAndShortestPath(node);
                 return Ok(response);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
@@ -193,13 +198,18 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("minimum_spanning_tree/")]
-        public ActionResult<Kruskal> MinimumSpanningTree()
+        public ActionResult MinimumSpanningTree()
         {
             try
             {
                 var response = graphService.KruskalsAlgorithm();
-                return Ok(response);
-            } catch (Exception ex)
+                var data = fileService.GenerateKruskalFile(response);
+                return new FileContentResult(data.Item1, data.Item2)
+                {
+                    FileDownloadName = data.Item3
+                };
+            }
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }

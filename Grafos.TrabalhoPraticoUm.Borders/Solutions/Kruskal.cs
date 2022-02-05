@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 
 namespace Grafos.TrabalhoPraticoUm.Borders.Solutions
 {
@@ -15,7 +16,8 @@ namespace Grafos.TrabalhoPraticoUm.Borders.Solutions
             MinCost = 0;
             int edgeCount = 0;
 
-            for (int i = 0; i < length; i++) {
+            for (int i = 0; i < length; i++)
+            {
                 Parents.Add(i);
             }
 
@@ -36,7 +38,7 @@ namespace Grafos.TrabalhoPraticoUm.Borders.Solutions
                     }
                 }
                 Union(a, b);
-                Tree.Add(edgeCount + 1, $"{a + 1} {b + 1} {min}");
+                Tree.Add(edgeCount + 1, $"{a + 1} {b + 1} {min.ToString(CultureInfo.InvariantCulture)}");
                 MinCost += min;
                 edgeCount++;
             }

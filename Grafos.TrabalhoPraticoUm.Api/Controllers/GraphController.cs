@@ -214,5 +214,18 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpGet("connected_components/")]
+        public ActionResult<RoyConnectedComponents> ConnectedComponents()
+        {
+            try
+            {
+                var response = graphService.RoysAlgorithm();
+                return Ok(response);
+            } catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

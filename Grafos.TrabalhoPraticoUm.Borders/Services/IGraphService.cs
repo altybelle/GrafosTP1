@@ -16,5 +16,6 @@ namespace Grafos.TrabalhoPraticoUm.Borders.Services
         EulerianPath EulerianPath();
         Djikstra DistanceAndShortestPath(int node);
         Kruskal KruskalsAlgorithm();
+        RoyConnectedComponents RoysAlgorithm();
     }
 }

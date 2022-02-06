@@ -182,9 +182,14 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
 
             return kruskal;
         }
-        public void RoysAlgorithm()
+        public RoyConnectedComponents RoysAlgorithm()
         {
+            var graph = CreateGraph();
 
+            var roys = new RoyConnectedComponents(graph.Connections, graph.Nodes);
+            roys.Run();
+
+            return roys;
         }
         internal FileGraph CreateGraph()
         {

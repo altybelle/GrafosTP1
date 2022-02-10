@@ -215,6 +215,10 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Applies Roy's algorithm to discover connected components.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("connected_components/")]
         public ActionResult<RoyConnectedComponents> ConnectedComponents()
         {

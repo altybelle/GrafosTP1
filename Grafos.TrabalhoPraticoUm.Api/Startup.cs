@@ -32,12 +32,12 @@ namespace Grafos.TrabalhoPraticoUm.Api
             {
                 s.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "Just A Graph - by MDT",
-                    Description = "Trabalho Prático 1 de Grafos - Universidade Federal de Viçosa",
+                    Title = "GraFV API - Ferramenta de Manipulação de Grafos",
+                    Description = "Trabalho Prático de Grafos - Universidade Federal de Viçosa - campus Florestal",
                     Contact = new OpenApiContact
                     {
-                        Name = "MDT",
-                        Email = "altamiro.belezia@ufv.br;icaro.moreira@ufv.br;emanuel.ruella@ufv.br",
+                        Name = "Developers",
+                        Email = "altamiro.belezia@ufv.br;icaro.moreira@ufv.br;emanuel.ruella@ufv.br;lazaro.maia@ufv.br",
                     },
                     Version = "v1"
                 });

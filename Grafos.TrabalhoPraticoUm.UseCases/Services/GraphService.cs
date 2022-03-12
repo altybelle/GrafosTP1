@@ -191,6 +191,29 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
 
             return roys;
         }
+
+        public IEnumerable<int> GreedyHeuristic()
+        {
+            var graph = CreateGraph();
+
+            List<(int, int)> nodeOrder = new List<(int, int)>();
+            List<int> nodeRecord = new List<int>();
+
+            for (int i = 1; i <= graph.Nodes; i++)
+                nodeOrder.Add((i, ReturnDegree(i)));
+
+            nodeOrder = nodeOrder.OrderBy(n => n.Item2).Reverse().ToList();
+
+            while (nodeOrder.Any())
+            {
+                nodeRecord.Add(nodeOrder[0].Item1);
+                nodeOrder
+                    .RemoveAll(r => ReturnNeighborhood(nodeOrder[0].Item1).Where(n => nodeOrder.Exists(o => o.Item1 == n)).Contains(r.Item1));
+                nodeOrder.RemoveAt(0);
+            }
+
+            return nodeRecord;
+        }
         internal FileGraph CreateGraph()
         {
             var graph = memoryService.Load();

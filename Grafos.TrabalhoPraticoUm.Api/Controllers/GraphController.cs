@@ -231,5 +231,21 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+        /// <summary>
+        /// Determines the independent or stable set of a graph using a greedy heuristic.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("greedy_heuristic")]
+        public ActionResult<IEnumerable<int>> GreedyHeuristic()
+        {
+            try
+            {
+                var response = graphService.GreedyHeuristic();
+                return Ok(response);
+            } catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

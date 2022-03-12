@@ -17,5 +17,6 @@ namespace Grafos.TrabalhoPraticoUm.Borders.Services
         Djikstra DistanceAndShortestPath(int node);
         Kruskal KruskalsAlgorithm();
         RoyConnectedComponents RoysAlgorithm();
+        IEnumerable<int> GreedyHeuristic();
     }
 }

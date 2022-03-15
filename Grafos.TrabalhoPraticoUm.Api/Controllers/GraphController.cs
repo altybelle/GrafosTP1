@@ -247,6 +247,10 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+        /// <summary>
+        /// Determines the color of each node in a graph using DSATUR's algorithm.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("DSATUR")]
         public ActionResult<IEnumerable<DsaturColouredNodes>> DSATUR()
         {

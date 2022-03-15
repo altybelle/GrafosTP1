@@ -247,5 +247,17 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+        [HttpGet("DSATUR")]
+        public ActionResult<IEnumerable<DsaturColouredNodes>> DSATUR()
+        {
+            try
+            {
+                var response = graphService.DSATUR();
+                return Ok(response);
+            } catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

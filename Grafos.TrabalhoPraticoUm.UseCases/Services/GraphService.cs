@@ -5,6 +5,7 @@ using Grafos.TrabalhoPraticoUm.Shared.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 
 namespace Grafos.TrabalhoPraticoUm.UseCases.Services
 {
@@ -17,7 +18,6 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
             this.fileService = fileService;
             this.memoryService = memoryService;
         }
-
         public bool IsArticulated(int node)
         {
             var graph = CreateGraph();
@@ -29,7 +29,6 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
                 .Where(i => i != node && i > 0)
                 .All(n => ReturnNeighborhood(n).Any(s => s != node));
         }
-
         public int ReturnDegree(int node)
         {
             var graph = CreateGraph();
@@ -41,13 +40,11 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
                 .Select(i => graph.Connections[i, node])
                 .Where(i => i != float.MaxValue).Count();
         }
-
         public float ReturnDensity()
         {
             var graph = CreateGraph();
             return Math.Abs((float)graph.Edges) / Math.Abs((float)graph.Nodes);
         }
-
         public IEnumerable<int> ReturnNeighborhood(int node)
         {
             var graph = CreateGraph();
@@ -58,17 +55,14 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
             return Enumerable.Range(0, graph.Connections.GetLength(0))
                 .Where(i => i > 0 && graph.Connections[node, i] != float.MaxValue);
         }
-
         public int ReturnOrder()
         {
             return CreateGraph().Nodes;
         }
-
         public int ReturnSize()
         {
             return CreateGraph().Edges;
         }
-
         public IEnumerable<string> BFS(int node)
         {
             var graph = CreateGraph();
@@ -110,7 +104,6 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
 
             return unvisitedEdges;
         }
-
         public bool IsCyclic()
         {
             var graph = CreateGraph();
@@ -127,7 +120,6 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
 
             return false;
         }
-
         private bool CycleDetection(FileGraph graph, int v, List<bool> visited, int parent)
         {
             visited[v] = true;
@@ -163,7 +155,6 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
 
             return euler;
         }
-
         public Djikstra DistanceAndShortestPath(int node)
         {
             var graph = CreateGraph();
@@ -191,7 +182,6 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
 
             return roys;
         }
-
         public IEnumerable<int> GreedyHeuristic()
         {
             var graph = CreateGraph();
@@ -213,6 +203,83 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
             }
 
             return nodeRecord;
+        }
+        public List<DsaturColouredNodes> DSATUR()
+        {
+            var graph = CreateGraph();
+
+            List<DsaturColouredNodes> c = new List<DsaturColouredNodes>();
+            List<int> vertex = new List<int>();
+
+            for (int i = 0; i <= graph.Nodes; i++)
+            {
+                c.Add(new DsaturColouredNodes
+                {
+                    Color = i,
+                    Nodes = new List<int>()
+                });
+            }
+
+            int biggestDegreeVertex = 1;
+            for (int i = 2; i < graph.Nodes; i++)
+                if (ReturnDegree(biggestDegreeVertex) < ReturnDegree(i))
+                    biggestDegreeVertex = i;
+
+            for (int i = 1; i <= graph.Nodes; i++)
+                if (i != biggestDegreeVertex)
+                    vertex.Add(i);
+
+            c[1].Nodes.Add(biggestDegreeVertex);
+
+
+            while (vertex.Count > 0)
+            {
+                List<int> vertexSaturations = new List<int>();
+
+                int biggestSaturation = -1;
+                foreach (var v in vertex)
+                {
+                    var n = ReturnNeighborhood(v);
+                    var m = c.Where(x => x.Nodes.Intersect(n).Any());
+                    if (m.Count() > biggestSaturation)
+                    {
+                        if (vertexSaturations.Any())
+                            vertexSaturations.Clear();
+                        biggestSaturation = v;
+                        vertexSaturations.Add(v);
+                    } else if (m.Count() == biggestSaturation)
+                    {
+                        vertexSaturations.Add(v);
+                    }
+                }
+
+                if (vertexSaturations.Count > 1)
+                {
+                    biggestDegreeVertex = vertexSaturations[0];
+                    foreach (var i in vertexSaturations)
+                    {
+                        if (i != biggestDegreeVertex && ReturnDegree(biggestDegreeVertex) < ReturnDegree(i))
+                        {
+                            biggestDegreeVertex = i;
+                            vertexSaturations.RemoveAt(0);
+                        }
+                    }
+                }
+
+                var neighbors = ReturnNeighborhood(vertexSaturations[0]);
+                foreach (var color in c)
+                {
+                    if (!color.Nodes.Intersect(neighbors).Any() && color.Color != 0)
+                    {
+                        color.Nodes.Add(vertexSaturations[0]);
+                        break;
+                    }
+                }
+                vertex.Remove(vertexSaturations[0]);
+            }
+
+            c.RemoveAt(0);
+            return c;
         }
         internal FileGraph CreateGraph()
         {

@@ -248,7 +248,7 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
             }
         }
         /// <summary>
-        /// Determines the color of each node in a graph using DSATUR's algorithm.
+        /// Determines the chromatic number of a graph using DSATUR's algorithm.
         /// </summary>
         /// <returns></returns>
         [HttpGet("DSATUR")]
@@ -263,6 +263,10 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+        /// <summary>
+        /// Determines if a graph is acyclic.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("is_acyclic")]
         public ActionResult<bool> IsAcyclic()
         {

@@ -204,7 +204,7 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
 
             return nodeRecord;
         }
-        public List<DsaturColouredNodes> DSATUR()
+        public int DSATUR()
         {
             var graph = CreateGraph();
 
@@ -279,7 +279,7 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
             }
 
             c.RemoveAt(0);
-            return c;
+            return c.Where(x => x.Nodes.Any()).Count();
         }
         internal FileGraph CreateGraph()
         {

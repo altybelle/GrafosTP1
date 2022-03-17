@@ -18,6 +18,6 @@ namespace Grafos.TrabalhoPraticoUm.Borders.Services
         Kruskal KruskalsAlgorithm();
         RoyConnectedComponents RoysAlgorithm();
         IEnumerable<int> GreedyHeuristic();
-        List<DsaturColouredNodes> DSATUR();
+        int DSATUR();
     }
 }

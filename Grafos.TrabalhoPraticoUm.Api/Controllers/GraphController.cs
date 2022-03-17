@@ -252,11 +252,22 @@ namespace Grafos.TrabalhoPraticoUm.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("DSATUR")]
-        public ActionResult<IEnumerable<DsaturColouredNodes>> DSATUR()
+        public ActionResult<int> DSATUR()
         {
             try
             {
                 var response = graphService.DSATUR();
+                return Ok(response);
+            } catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+        [HttpGet("is_acyclic")]
+        public ActionResult<bool> IsAcyclic()
+        {
+            try {
+                var response = !graphService.IsCyclic();
                 return Ok(response);
             } catch (Exception ex)
             {

@@ -4,6 +4,7 @@
     {
         public int Nodes { get; set; }
         public int Edges { get; set; }
+        public bool Directed { get; set; }
         public float[,] Connections { get; set; }
     }
 }

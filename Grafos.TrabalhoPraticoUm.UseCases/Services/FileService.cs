@@ -45,15 +45,21 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
 
             var dict = graph.Data.Edges.Data;
 
-
             foreach (string key in dict.Keys)
             {
                 int index1 = dict[key].To;
                 int index2 = dict[key].From;
                 float value = float.Parse(dict[key].Label, CultureInfo.InvariantCulture);
 
-                obj.Connections[index1, index2] = value;
-                obj.Connections[index2, index1] = value;
+                if (graph.Ordenado)
+                {
+                    obj.Connections[index1, index2] = value;
+                }
+                else
+                {
+                    obj.Connections[index1, index2] = value;
+                    obj.Connections[index2, index1] = value;
+                }
             }
 
             return obj;
@@ -77,11 +83,13 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
             string txt = Encoding.UTF8.GetString(ms.ToArray()).Replace("\r", string.Empty);
             string[] data = txt.Split("\n");
 
-            int nodeAmount = int.Parse(data[0]);
-            int edgeAmount = data.Length - 1;
+            bool isDirected = int.Parse(data[0]) == 1 ? true : false;
+            int nodeAmount = int.Parse(data[1]);
+            int edgeAmount = data.Length - 2;
 
             var obj = new FileGraph
             {
+                Directed = isDirected,
                 Nodes = nodeAmount,
                 Edges = edgeAmount,
                 Connections = new float[nodeAmount + 1, nodeAmount + 1]
@@ -95,7 +103,7 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
                 }
             }
 
-            for (int i = 1; i <= edgeAmount; i++)
+            for (int i = 2; i <= edgeAmount; i++)
             {
                 string[] connections = data[i].Split(" ");
 
@@ -103,8 +111,15 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
                 int index2 = int.Parse(connections[1]);
                 float value = float.Parse(connections[2], CultureInfo.InvariantCulture);
 
-                obj.Connections[index1, index2] = value;
-                obj.Connections[index2, index1] = value;
+                if (obj.Directed)
+                {
+                    obj.Connections[index1, index2] = value;
+                }
+                else
+                {
+                    obj.Connections[index1, index2] = value;
+                    obj.Connections[index2, index1] = value;
+                }
             }
 
             return obj;
@@ -248,7 +263,7 @@ namespace Grafos.TrabalhoPraticoUm.UseCases.Services
                             From = i,
                             To = j,
                             Label = connections[i, j].ToString(CultureInfo.InvariantCulture),
-                            Id = id
+                            Id = id.ToString()
                         };
                     }
                 }
